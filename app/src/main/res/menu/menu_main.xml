@@ -1,0 +1,53 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ch.jacks.vaulture.MainActivity">
+
+    <item
+        android:id="@+id/searchMenu"
+        android:title="Search"
+        android:orderInCategory="10"
+        android:icon="@drawable/ic_search_24"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/logOutMenu"
+        android:title="Log out"
+        android:orderInCategory="50"
+        android:icon="@drawable/ic_lock_24"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/generatePwdMenu"
+        android:title="Generate secured password"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/importPwdMenu"
+        android:title="Import passwords"
+        android:orderInCategory="150"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/otherMenu"
+        android:title="Other"
+        android:orderInCategory="200"
+        app:showAsAction="never">
+
+        <menu>
+            <item
+                android:id="@+id/settingsMenu"
+                android:orderInCategory="200"
+                android:title="Settings"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/aboutMenu"
+                android:orderInCategory="300"
+                android:title="About"
+                app:showAsAction="never" />
+        </menu>
+
+    </item>
+</menu>

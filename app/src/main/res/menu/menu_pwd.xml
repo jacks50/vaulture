@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ch.jacks.vaulture.MainActivity">
+
+    <item
+        android:id="@+id/savePwd"
+        android:title="Save"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/cancelPwd"
+        android:title="Cancel"
+        app:showAsAction="ifRoom" />
+</menu>
