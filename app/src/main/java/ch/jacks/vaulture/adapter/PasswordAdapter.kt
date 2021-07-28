@@ -12,6 +12,8 @@ class PasswordAdapter(
         private var dataSet: ArrayList<PasswordEntity>,
         private var listener: (PasswordEntity) -> Unit
 ) : RecyclerView.Adapter<PasswordViewHolder>() {
+    private var dataSetCopy = ArrayList<PasswordEntity>(dataSet)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PasswordViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.password_entity_layout, parent, false)
@@ -20,7 +22,7 @@ class PasswordAdapter(
     }
 
     override fun onBindViewHolder(holder: PasswordViewHolder, position: Int) {
-        val password: PasswordEntity = dataSet[position]
+        val password: PasswordEntity = dataSetCopy[position]
 
         //holder.passwordCardImage = password.passwordIcon
         holder.passwordCardName.text = password.passwordName
@@ -30,11 +32,26 @@ class PasswordAdapter(
     }
 
     override fun getItemCount(): Int {
-        return dataSet.size
+        return dataSetCopy.size
+    }
+
+    fun filterDataSet(filter: String?) {
+        dataSetCopy.clear()
+
+        if (!filter.isNullOrEmpty())
+            dataSet.forEach {
+                if (it.passwordName.contains(filter, true) or it.passwordURL.contains(filter, true))
+                    dataSetCopy.add(it)
+            }
+        else
+            dataSetCopy = ArrayList(dataSet)
+
+        notifyDataSetChanged()
     }
 
     fun updateDataSet() {
         dataSet = PasswordDao.getPasswords(SessionUtil.currentLoginId)
+        dataSetCopy = ArrayList(dataSet)
         notifyDataSetChanged()
     }
 }
