@@ -6,35 +6,40 @@ import android.view.View
 import android.view.ViewGroup
 import ch.jacks.vaulture.R
 import ch.jacks.vaulture.abstract.AbsMenuSheetDialog
-import ch.jacks.vaulture.listener.ISheetListener
 import kotlinx.android.synthetic.main.password_sheet_dialog.*
 
-class PasswordMenuSheet(private val listener: ISheetListener): AbsMenuSheetDialog() {
+class PasswordMenuSheet(
+        private val callback: (String) -> Unit
+) : AbsMenuSheetDialog() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.password_sheet_dialog, container, false)
     }
 
     override fun setupMenuItems(view: View) {
-        sheetItemEditPwd.setOnClickListener{
+        sheetItemEditPwd.setOnClickListener {
             dismissWithResult(EDIT_KEY)
         }
 
-        sheetItemCopyUrl.setOnClickListener{
+        sheetItemCopyUrl.setOnClickListener {
             dismissWithResult(COPY_URL_KEY)
         }
 
-        sheetItemCopyPwd.setOnClickListener{
+        sheetItemCopyPwd.setOnClickListener {
             dismissWithResult(COPY_PWD_KEY)
         }
 
-        sheetItemDeletePwd.setOnClickListener{
+        sheetItemShowPwd.setOnClickListener {
+            dismissWithResult(SHOW_PWD_KEY)
+        }
+
+        sheetItemDeletePwd.setOnClickListener {
             dismissWithResult(DELETE_KEY)
         }
     }
 
-    override fun dismissWithResult(any: Any) {
-        listener.callback(any)
+    override fun dismissWithResult(key: String) {
+        callback(key)
         dismiss()
     }
 

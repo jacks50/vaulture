@@ -6,7 +6,7 @@ import android.view.View
 import android.view.Window
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class AbsMenuSheetDialog(): BottomSheetDialogFragment() {
+abstract class AbsMenuSheetDialog() : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupMenuItems(view)
@@ -18,6 +18,6 @@ abstract class AbsMenuSheetDialog(): BottomSheetDialogFragment() {
         return dialog
     }
 
-    abstract fun dismissWithResult(any: Any)
+    abstract fun dismissWithResult(key: String)
     abstract fun setupMenuItems(view: View)
 }

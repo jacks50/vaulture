@@ -1,7 +1,6 @@
 package ch.jacks.vaulture.fragment.login
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import ch.jacks.vaulture.util.SessionUtil
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_fragment.*
 
-class LoginFragment: Fragment() {
+class LoginFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.login_fragment, container, false)

@@ -56,7 +56,7 @@ object PasswordDao {
         )
 
         with(cr) {
-            if(moveToFirst())
+            if (moveToFirst())
                 return PasswordEntity(
                         getLong(getColumnIndexOrThrow(BaseColumns._ID)),
                         getString(getColumnIndexOrThrow(DbHelper.VaultureContract.PasswordEntity.COLUMN_PWD_NAME)),
@@ -79,7 +79,7 @@ object PasswordDao {
         val passwordList = ArrayList<PasswordEntity>()
 
         with(cr) {
-            while(moveToNext()) {
+            while (moveToNext()) {
                 val pwd = PasswordEntity(
                         getLong(getColumnIndexOrThrow(BaseColumns._ID)),
                         getString(getColumnIndexOrThrow(DbHelper.VaultureContract.PasswordEntity.COLUMN_PWD_NAME)),

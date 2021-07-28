@@ -13,7 +13,7 @@ import ch.jacks.vaulture.util.MyTextUtil
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.new_login_fragment.*
 
-class NewLoginFragment: DialogFragment() {
+class NewLoginFragment : DialogFragment() {
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -33,8 +33,8 @@ class NewLoginFragment: DialogFragment() {
         ))
 
         btCreateNewLogin.setOnClickListener {
-            if(MyTextUtil.fieldsAreValid()) {
-                if(TextUtils.equals(newPasswordInput.text, newPasswordConfirmInput.text)) {
+            if (MyTextUtil.fieldsAreValid()) {
+                if (TextUtils.equals(newPasswordInput.text, newPasswordConfirmInput.text)) {
                     LoginDao.createLogin(newLoginInput.text.toString(), newPasswordConfirmInput.text.toString())
                     Snackbar.make(view, "New login created successfully", Snackbar.LENGTH_SHORT)
                     findNavController().popBackStack()
