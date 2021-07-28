@@ -11,6 +11,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.*
+import android.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import ch.jacks.vaulture.AbstractMainFragment
@@ -59,6 +60,23 @@ class PasswordListFragment : AbstractMainFragment() {
     // region Menu options creation
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_main, menu)
+
+        val searchView = SearchView(requireActivity())
+        menu.findItem(R.id.searchMenu).apply {
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            actionView = searchView
+        }
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                passwordListAdapter.filterDataSet(newText)
+                return true
+            }
+
+        })
     }
 
     override fun setupListeners() {
