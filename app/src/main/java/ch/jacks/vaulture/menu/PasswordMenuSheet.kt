@@ -44,6 +44,7 @@ class PasswordMenuSheet(private val listener: ISheetListener): AbsMenuSheetDialo
         const val EDIT_KEY = "EDIT_PWD"
         const val COPY_URL_KEY = "COPY_URL"
         const val COPY_PWD_KEY = "COPY_PWD"
+        const val SHOW_PWD_KEY = "SHOW_PWD"
         const val DELETE_KEY = "DELETE_PWD"
     }
 }

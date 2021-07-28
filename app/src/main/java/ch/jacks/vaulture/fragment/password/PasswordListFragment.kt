@@ -98,6 +98,9 @@ class PasswordListFragment: ISheetListener, AbstractMainFragment() {
                 clipboard.setPrimaryClip(clipData)
                 Snackbar.make(rootView!!, "Password copied", Snackbar.LENGTH_SHORT).show()
             }
+            PasswordMenuSheet.SHOW_PWD_KEY -> {
+                // TODO
+            }
             PasswordMenuSheet.DELETE_KEY -> {
                 MaterialAlertDialogBuilder(requireActivity())
                         .setMessage("Are you sure you want to delete this password ?")
