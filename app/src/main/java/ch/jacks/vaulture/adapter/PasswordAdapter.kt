@@ -11,7 +11,7 @@ import ch.jacks.vaulture.util.SessionUtil
 class PasswordAdapter(
         private var dataSet: ArrayList<PasswordEntity>,
         private var listener: (PasswordEntity) -> Unit
-): RecyclerView.Adapter<PasswordViewHolder>() {
+) : RecyclerView.Adapter<PasswordViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PasswordViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.password_entity_layout, parent, false)
@@ -26,7 +26,7 @@ class PasswordAdapter(
         holder.passwordCardName.text = password.passwordName
         holder.passwordCardUrl.text = password.passwordURL
 
-        holder.itemView.setOnClickListener{ listener(password) }
+        holder.itemView.setOnClickListener { listener(password) }
     }
 
     override fun getItemCount(): Int {

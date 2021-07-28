@@ -11,8 +11,8 @@ import kotlinx.android.synthetic.main.new_password_fragment.*
 
 class NewPasswordFragment : Fragment() {
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         setHasOptionsMenu(true)
@@ -38,18 +38,18 @@ class NewPasswordFragment : Fragment() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-                R.id.savePwd -> {
-                    savePassword()
-                    findNavController().popBackStack()
-                    true
-                }
+            R.id.savePwd -> {
+                savePassword()
+                findNavController().popBackStack()
+                true
+            }
 
-                R.id.cancelPwd -> {
-                    findNavController().popBackStack()
-                    true
-                }
+            R.id.cancelPwd -> {
+                findNavController().popBackStack()
+                true
+            }
 
-                else -> false
+            else -> false
         }
     }
 

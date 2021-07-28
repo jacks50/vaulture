@@ -5,34 +5,34 @@
 
     <item
         android:id="@+id/searchMenu"
-        android:title="Search"
-        android:orderInCategory="10"
         android:icon="@drawable/ic_search_24"
+        android:orderInCategory="10"
+        android:title="Search"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/logOutMenu"
-        android:title="Log out"
-        android:orderInCategory="50"
         android:icon="@drawable/ic_lock_24"
+        android:orderInCategory="50"
+        android:title="Log out"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/generatePwdMenu"
-        android:title="Generate secured password"
         android:orderInCategory="100"
+        android:title="Generate secured password"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/importPwdMenu"
-        android:title="Import passwords"
         android:orderInCategory="150"
+        android:title="Import passwords"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/otherMenu"
-        android:title="Other"
         android:orderInCategory="200"
+        android:title="Other"
         app:showAsAction="never">
 
         <menu>

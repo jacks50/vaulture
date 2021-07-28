@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import ch.jacks.vaulture.db.DbHelper
 
-class VaultureApp: Application() {
+class VaultureApp : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext

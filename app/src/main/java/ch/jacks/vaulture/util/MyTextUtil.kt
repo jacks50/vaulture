@@ -1,11 +1,8 @@
 package ch.jacks.vaulture.util
 
 import android.text.TextUtils
-import android.view.View
-import android.widget.EditText
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.login_fragment.*
 
 object MyTextUtil {
     private const val EMPTY_INPUT_MSG = "Cannot be empty"

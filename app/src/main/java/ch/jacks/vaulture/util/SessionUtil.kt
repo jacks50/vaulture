@@ -9,7 +9,11 @@ object SessionUtil {
 
     const val SP_LOGIN_ID_KEY = "LOGIN_ID"
     var currentLoginId: Long
-        get() { return sp.getLong(SP_LOGIN_ID_KEY, -1L)}
-        set(value) { sp.edit().putLong(SP_LOGIN_ID_KEY, value).commit() }
+        get() {
+            return sp.getLong(SP_LOGIN_ID_KEY, -1L)
+        }
+        set(value) {
+            sp.edit().putLong(SP_LOGIN_ID_KEY, value).commit()
+        }
 
 }

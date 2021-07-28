@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import ch.jacks.vaulture.app.VaultureApp
 
-class DbHelper: SQLiteOpenHelper(
+class DbHelper : SQLiteOpenHelper(
         VaultureApp.appContext,
         VaultureContract.DB_NAME,
         null,
@@ -39,13 +39,13 @@ class DbHelper: SQLiteOpenHelper(
                 "${PasswordEntity.COLUMN_PWD_LOGIN_ID} INT " +
                 ")"
 
-        object LoginEntity: BaseColumns {
+        object LoginEntity : BaseColumns {
             const val TABLE_NAME = "LOGIN"
             const val COLUMN_LOGIN_USERNAME = "USERNAME"
             const val COLUMN_LOGIN_PASSWORD = "PASSWORD"
         }
 
-        object PasswordEntity: BaseColumns {
+        object PasswordEntity : BaseColumns {
             const val TABLE_NAME = "VAULTPWD"
             const val COLUMN_PWD_NAME = "NAME"
             const val COLUMN_PWD_USERNAME = "USERNAME"
