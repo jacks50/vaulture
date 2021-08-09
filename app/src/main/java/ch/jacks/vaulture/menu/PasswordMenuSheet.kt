@@ -17,12 +17,8 @@ class PasswordMenuSheet(
     }
 
     override fun setupMenuItems(view: View) {
-        sheetItemEditPwd.setOnClickListener {
-            dismissWithResult(EDIT_KEY)
-        }
-
-        sheetItemCopyUrl.setOnClickListener {
-            dismissWithResult(COPY_URL_KEY)
+        sheetItemCopyUsername.setOnClickListener {
+            dismissWithResult(COPY_USERNAME_KEY)
         }
 
         sheetItemCopyPwd.setOnClickListener {
@@ -31,6 +27,10 @@ class PasswordMenuSheet(
 
         sheetItemShowPwd.setOnClickListener {
             dismissWithResult(SHOW_PWD_KEY)
+        }
+
+        sheetItemEditPwd.setOnClickListener {
+            dismissWithResult(EDIT_KEY)
         }
 
         sheetItemDeletePwd.setOnClickListener {
@@ -47,7 +47,7 @@ class PasswordMenuSheet(
         const val TAG = "PwdMenuSheet"
 
         const val EDIT_KEY = "EDIT_PWD"
-        const val COPY_URL_KEY = "COPY_URL"
+        const val COPY_USERNAME_KEY = "COPY_USERNAME"
         const val COPY_PWD_KEY = "COPY_PWD"
         const val SHOW_PWD_KEY = "SHOW_PWD"
         const val DELETE_KEY = "DELETE_PWD"

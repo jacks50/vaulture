@@ -107,11 +107,11 @@ class PasswordListFragment : AbstractMainFragment() {
                 val bundle = bundleOf(Pair("pwd_id", selectedPassword!!.passwordId))
                 findNavController().navigate(R.id.action_ListFragment_to_EditPasswordFragment, bundle)
             }
-            PasswordMenuSheet.COPY_URL_KEY -> {
+            PasswordMenuSheet.COPY_USERNAME_KEY -> {
                 var clipboard: ClipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                var clipData: ClipData = ClipData.newPlainText("URL", selectedPassword!!.passwordURL)
+                var clipData: ClipData = ClipData.newPlainText("Username", selectedPassword!!.passwordUsername)
                 clipboard.setPrimaryClip(clipData)
-                Snackbar.make(rootView!!, "URL copied", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(rootView!!, "Username copied", Snackbar.LENGTH_SHORT).show()
             }
             PasswordMenuSheet.COPY_PWD_KEY -> {
                 var clipboard: ClipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
