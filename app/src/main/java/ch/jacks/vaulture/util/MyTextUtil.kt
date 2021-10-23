@@ -1,6 +1,10 @@
 package ch.jacks.vaulture.util
 
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -29,5 +33,21 @@ object MyTextUtil {
         }
 
         return valid
+    }
+
+    fun colorizeText(text: String, colorizeDigits: Boolean = true, colorizeSpecial: Boolean = true): SpannableStringBuilder {
+        var ssb = SpannableStringBuilder(text)
+
+        for (i in text.indices) {
+            if (colorizeDigits && text[i].isDigit()) {
+                ssb.setSpan(ForegroundColorSpan(Color.RED), i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            }
+
+            if (colorizeSpecial && !text[i].isLetterOrDigit()) {
+                ssb.setSpan(ForegroundColorSpan(Color.BLUE), i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            }
+        }
+
+        return ssb
     }
 }

@@ -5,11 +5,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.view.*
 import android.widget.SearchView
 import androidx.core.os.bundleOf
@@ -18,10 +14,12 @@ import ch.jacks.vaulture.AbstractMainFragment
 import ch.jacks.vaulture.R
 import ch.jacks.vaulture.adapter.PasswordAdapter
 import ch.jacks.vaulture.app.VaultureApp
+import ch.jacks.vaulture.custom.PasswordGenerateDialog
 import ch.jacks.vaulture.db.dao.PasswordDao
 import ch.jacks.vaulture.db.entity.PasswordEntity
 import ch.jacks.vaulture.menu.MainMenuSheet
 import ch.jacks.vaulture.menu.PasswordMenuSheet
+import ch.jacks.vaulture.util.MyTextUtil
 import ch.jacks.vaulture.util.PasswordImportUtil
 import ch.jacks.vaulture.util.SessionUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -31,7 +29,7 @@ import java.io.InputStream
 
 class PasswordListFragment : AbstractMainFragment() {
     // region Variables
-    private var rootView: View? = null
+    private lateinit var rootView: View
     private var selectedPassword: PasswordEntity? = null
     private var passwordListAdapter: PasswordAdapter = PasswordAdapter(PasswordDao.getPasswords(SessionUtil.currentLoginId)) { onPasswordSelected(it) }
     private var mmSheet: MainMenuSheet = MainMenuSheet(::menuCallback)
@@ -111,27 +109,21 @@ class PasswordListFragment : AbstractMainFragment() {
                 var clipboard: ClipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 var clipData: ClipData = ClipData.newPlainText("Username", selectedPassword!!.passwordUsername)
                 clipboard.setPrimaryClip(clipData)
-                Snackbar.make(rootView!!, "Username copied", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(rootView, "Username copied", Snackbar.LENGTH_SHORT).show()
             }
             PasswordMenuSheet.COPY_PWD_KEY -> {
                 var clipboard: ClipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 var clipData: ClipData = ClipData.newPlainText("Password", selectedPassword!!.passwordValue)
                 clipboard.setPrimaryClip(clipData)
-                Snackbar.make(rootView!!, "Password copied", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(rootView, "Password copied", Snackbar.LENGTH_SHORT).show()
             }
             PasswordMenuSheet.SHOW_PWD_KEY -> {
                 var pwdValue: String = PasswordDao.getPassword(selectedPassword!!.passwordId)!!.passwordValue
-                var ssb = SpannableStringBuilder(pwdValue)
-                for (i in pwdValue.indices) {
-                    if (pwdValue[i].isDigit()) {
-                        ssb.setSpan(ForegroundColorSpan(Color.RED), i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-                    }
-                }
                 MaterialAlertDialogBuilder(
                         requireActivity(),
                         R.style.MaterialAlertDialog__Center
                 )
-                        .setMessage(ssb)
+                        .setMessage(MyTextUtil.colorizeText(pwdValue))
                         .setPositiveButton("Close") { _, _ -> }
                         .show()
             }
@@ -141,7 +133,7 @@ class PasswordListFragment : AbstractMainFragment() {
                         .setNegativeButton("No") { _, _ -> }
                         .setPositiveButton("Yes") { _, _ ->
                             if (PasswordDao.deletePassword(selectedPassword!!.passwordId)) {
-                                Snackbar.make(rootView!!, "Password deleted successfully", Snackbar.LENGTH_SHORT).show()
+                                Snackbar.make(rootView, "Password deleted successfully", Snackbar.LENGTH_SHORT).show()
                                 selectedPassword = null
                                 passwordListAdapter.updateDataSet()
                             }
@@ -169,7 +161,8 @@ class PasswordListFragment : AbstractMainFragment() {
                         .show()
             }
             R.id.generatePwdMenu -> {
-                Snackbar.make(rootView!!, "Not implemented yet !", Snackbar.LENGTH_SHORT).show()
+                PasswordGenerateDialog(rootView)
+                    .show(requireActivity().supportFragmentManager, "PWD_GEN_DIALOG")
             }
             R.id.importPwdMenu -> {
                 val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
@@ -180,10 +173,10 @@ class PasswordListFragment : AbstractMainFragment() {
                 startActivityForResult(Intent.createChooser(intent, "Open CSV"), FILE_CHOOSER_REQ_CODE)
             }
             R.id.settingsMenu -> {
-                Snackbar.make(rootView!!, "Not implemented yet !", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(rootView, "Not implemented yet !", Snackbar.LENGTH_SHORT).show()
             }
             R.id.aboutMenu -> {
-                Snackbar.make(rootView!!, "Not implemented yet !", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(rootView, "Not implemented yet !", Snackbar.LENGTH_SHORT).show()
             }
             else -> {
             }
@@ -200,7 +193,7 @@ class PasswordListFragment : AbstractMainFragment() {
 
                     PasswordImportUtil.readPasswordFile(VaultureApp.appContext.cacheDir, inputStream!!)
                     passwordListAdapter.updateDataSet()
-                    Snackbar.make(rootView!!, "Passwords imported successfully", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(rootView, "Passwords imported successfully", Snackbar.LENGTH_SHORT).show()
                 }
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
