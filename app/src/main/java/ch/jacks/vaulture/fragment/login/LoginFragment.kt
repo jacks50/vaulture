@@ -14,7 +14,11 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_fragment.*
 
 class LoginFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.login_fragment, container, false)
     }
@@ -22,25 +26,49 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupListeners(view)
 
-        MyTextUtil.setupFieldValidation(mapOf(
+        MyTextUtil.setupFieldValidation(
+            mapOf(
                 loginInput to loginLayout,
                 passwordInput to passwordLayout
-        ))
+            )
+        )
+
+        setupUIComponents()
+        setupListeners(view)
+    }
+
+    private fun setupUIComponents() {
+        if (SessionUtil.rememberMe) {
+            cbRememberMe.isChecked = true
+            loginInput.setText(SessionUtil.lastLogin)
+        }
     }
 
     private fun setupListeners(view: View) {
+        cbRememberMe.setOnClickListener {
+            SessionUtil.rememberMe = cbRememberMe.isChecked
+        }
+
         btLogin.setOnClickListener {
             if (MyTextUtil.fieldsAreValid()) {
-                var currentLogin = LoginDao.getLogin(loginInput.text.toString(), passwordInput.text.toString())
+                var currentLogin =
+                    LoginDao.getLogin(loginInput.text.toString(), passwordInput.text.toString())
 
                 if (currentLogin != null) {
-                    Snackbar.make(it, "Welcome back ${currentLogin.loginUsername} !", Snackbar.LENGTH_SHORT).show()
+                    SessionUtil.lastLogin =
+                        if (cbRememberMe.isChecked) currentLogin.loginUsername else ""
                     SessionUtil.currentLoginId = currentLogin.loginId
+
+                    Snackbar.make(
+                        it,
+                        "Welcome back ${currentLogin.loginUsername} !",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                     findNavController().navigate(R.id.action_LoginFragment_to_PasswordListFragment)
                 } else {
-                    Snackbar.make(it, "Wrong username and/or password", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(it, "Wrong username and/or password", Snackbar.LENGTH_SHORT)
+                        .show()
                 }
             }
         }

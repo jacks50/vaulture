@@ -1,8 +1,6 @@
 package ch.jacks.vaulture.util
 
-import java.lang.StringBuilder
 import java.security.SecureRandom
-import java.util.*
 
 object PasswordGeneratorUtil {
     private var CHAR_LOWERCASE = "abcdefghijklmnopqrstuvwxyz"
