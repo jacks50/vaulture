@@ -11,13 +11,6 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/logOutMenu"
-        android:icon="@drawable/ic_lock_24"
-        android:orderInCategory="50"
-        android:title="Log out"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/generatePwdMenu"
         android:orderInCategory="100"
         android:title="Generate secured password"
