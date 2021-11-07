@@ -148,18 +148,6 @@ class PasswordListFragment : AbstractMainFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.searchMenu -> {
-
-            }
-            R.id.logOutMenu -> {
-                MaterialAlertDialogBuilder(requireActivity())
-                        .setMessage("Are you sure you want to log out ?")
-                        .setNegativeButton("No") { _, _ -> }
-                        .setPositiveButton("Yes") { _, _ ->
-                            findNavController().popBackStack()
-                        }
-                        .show()
-            }
             R.id.generatePwdMenu -> {
                 PasswordGenerateDialog(rootView)
                     .show(requireActivity().supportFragmentManager, "PWD_GEN_DIALOG")

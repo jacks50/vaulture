@@ -5,6 +5,11 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/LoginFragment">
 
+    <action
+        android:id="@+id/RestartToLogin"
+        app:destination="@id/LoginFragment"
+        app:popUpTo="@id/nav_graph"/>
+
     <fragment
         android:id="@+id/LoginFragment"
         android:name="ch.jacks.vaulture.fragment.login.LoginFragment"
@@ -17,7 +22,9 @@
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out" />
+            app:popExitAnim="@anim/slide_out"
+            app:popUpTo="@id/LoginFragment"
+            app:popUpToInclusive="true"/>
 
         <action
             android:id="@+id/action_LoginFragment_to_NewLoginFragment"
@@ -32,7 +39,7 @@
         android:id="@+id/NewLoginFragment"
         android:name="ch.jacks.vaulture.fragment.login.NewLoginFragment"
         android:label="New account"
-        tools:layout="@layout/new_login_fragment"></fragment>
+        tools:layout="@layout/new_login_fragment" />
 
     <fragment
         android:id="@+id/ListFragment"
@@ -62,11 +69,11 @@
         android:id="@+id/NewPasswordFragment"
         android:name="ch.jacks.vaulture.fragment.password.NewPasswordFragment"
         android:label="Add password"
-        tools:layout="@layout/new_password_fragment"></fragment>
+        tools:layout="@layout/new_password_fragment"/>
 
     <fragment
         android:id="@+id/EditPasswordFragment"
         android:name="ch.jacks.vaulture.fragment.password.EditPasswordFragment"
         android:label="Edit password"
-        tools:layout="@layout/new_password_fragment"></fragment>
+        tools:layout="@layout/new_password_fragment"/>
 </navigation>
