@@ -1,4 +1,4 @@
-package ch.jacks.vaulture.custom
+package ch.jacks.vaulture.dialog
 
 import android.app.Dialog
 import android.content.ClipData
@@ -6,7 +6,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import ch.jacks.vaulture.R
@@ -17,23 +17,23 @@ import com.google.android.material.snackbar.Snackbar
 
 class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
     // region Password size
-    private lateinit var ivPlusSize: ImageView
+    private lateinit var ivPlusSize: ImageButton
     private lateinit var tvPwdSize: TextView
-    private lateinit var ivMinusSize: ImageView
+    private lateinit var ivMinusSize: ImageButton
     private var sizeCounter = 12 // default value
     // endregion
 
     // region Password nb digits
-    private lateinit var ivPlusNbDigits: ImageView
+    private lateinit var ivPlusNbDigits: ImageButton
     private lateinit var tvPwdNbDigits: TextView
-    private lateinit var ivMinusNbDigits: ImageView
+    private lateinit var ivMinusNbDigits: ImageButton
     private var digitsCounter = 4 // default value
     // endregion
 
     // region Password nb special chars
-    private lateinit var ivPlusNbSpecial: ImageView
+    private lateinit var ivPlusNbSpecial: ImageButton
     private lateinit var tvPwdNbSpecial: TextView
-    private lateinit var ivMinusNbSpecial: ImageView
+    private lateinit var ivMinusNbSpecial: ImageButton
     private var specialCounter = 4 // default value
     // endregion
 
@@ -112,8 +112,8 @@ class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
     }
 
     private fun setupListener(
-        ivPlus: ImageView,
-        ivMinus: ImageView,
+        ivPlus: ImageButton,
+        ivMinus: ImageButton,
         tvValue: TextView,
         counter: (Int) -> Int,
         counterMax: Int

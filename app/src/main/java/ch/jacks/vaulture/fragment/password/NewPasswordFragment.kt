@@ -6,25 +6,33 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ch.jacks.vaulture.R
 import ch.jacks.vaulture.db.dao.PasswordDao
+import ch.jacks.vaulture.dialog.PasswordGenerateDialog
 import ch.jacks.vaulture.util.SessionUtil
-import kotlinx.android.synthetic.main.new_password_fragment.*
+import kotlinx.android.synthetic.main.crud_password_fragment.*
 
 class NewPasswordFragment : Fragment() {
+    private lateinit var rootView: View
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.new_password_fragment, container, false)
+        return inflater.inflate(R.layout.crud_password_fragment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rootView = view
     }
 
     private fun savePassword() {
         PasswordDao.createPassword(
-                newPwdNameInput.text.toString(),
-                newPwdUsernameInput.text.toString(),
-                newPwdUrlInput.text.toString(),
-                newPwdPwdInput.text.toString(),
+                pwdNameInput.text.toString(),
+                pwdUsernameInput.text.toString(),
+                pwdUrlInput.text.toString(),
+                pwdPwdInput.text.toString(),
                 SessionUtil.currentLoginId
         )
     }
@@ -44,8 +52,9 @@ class NewPasswordFragment : Fragment() {
                 true
             }
 
-            R.id.cancelPwd -> {
-                findNavController().popBackStack()
+            R.id.genPwd -> {
+                PasswordGenerateDialog(rootView)
+                    .show(requireActivity().supportFragmentManager, "PWD_GEN_DIALOG")
                 true
             }
 

@@ -7,16 +7,19 @@ import androidx.navigation.fragment.findNavController
 import ch.jacks.vaulture.R
 import ch.jacks.vaulture.db.dao.PasswordDao
 import ch.jacks.vaulture.db.entity.PasswordEntity
-import kotlinx.android.synthetic.main.edit_password_fragment.*
+import ch.jacks.vaulture.dialog.PasswordGenerateDialog
+import kotlinx.android.synthetic.main.crud_password_fragment.*
 
 class EditPasswordFragment : Fragment() {
+    private lateinit var rootView: View
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.edit_password_fragment, container, false)
+        return inflater.inflate(R.layout.crud_password_fragment, container, false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -25,14 +28,15 @@ class EditPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        rootView = view
 
         var pwd: PasswordEntity? = PasswordDao.getPassword(arguments?.get("pwd_id") as Long)
 
         if (pwd != null) {
-            editPwdNameInput.setText(pwd.passwordName)
-            editPwdUrlInput.setText(pwd.passwordURL)
-            editPwdUsernameInput.setText(pwd.passwordUsername)
-            editPwdPwdInput.setText(pwd.passwordValue)
+            pwdNameInput.setText(pwd.passwordName)
+            pwdUrlInput.setText(pwd.passwordURL)
+            pwdUsernameInput.setText(pwd.passwordUsername)
+            pwdPwdInput.setText(pwd.passwordValue)
         }
     }
 
@@ -47,8 +51,9 @@ class EditPasswordFragment : Fragment() {
                 true
             }
 
-            R.id.cancelPwd -> {
-                findNavController().popBackStack()
+            R.id.genPwd -> {
+                PasswordGenerateDialog(rootView)
+                    .show(requireActivity().supportFragmentManager, "PWD_GEN_DIALOG")
                 true
             }
 
@@ -58,10 +63,10 @@ class EditPasswordFragment : Fragment() {
 
     private fun savePassword() {
         PasswordDao.editPassword(
-                editPwdNameInput.text.toString(),
-                editPwdUsernameInput.text.toString(),
-                editPwdUrlInput.text.toString(),
-                editPwdPwdInput.text.toString(),
+                pwdNameInput.text.toString(),
+                pwdUsernameInput.text.toString(),
+                pwdUrlInput.text.toString(),
+                pwdPwdInput.text.toString(),
                 arguments?.get("pwd_id") as Long
         )
     }

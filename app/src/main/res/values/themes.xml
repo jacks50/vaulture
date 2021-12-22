@@ -17,6 +17,7 @@
     <style name="MainBackground">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#000000</item>
     </style>
 
     <style name="Divider">
@@ -46,4 +47,113 @@
     <style name="Message.Center" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
         <item name="android:gravity">center_horizontal</item>
     </style>
+
+    <!-- Vaulture styles -->
+    <style name="MainLogoStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif-condensed-medium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">@string/app_name</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">48dp</item>
+        <item name="android:textColor">@color/primaryVariant</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+
+    <style name="CustomInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="android:textColor">@color/onPrimary</item>
+        <item name="android:textColorHint">@color/primaryVariant</item>
+        <item name="android:tint">@color/primaryVariant</item>
+        <item name="startIconTint">@color/primaryVariant</item>
+        <item name="hintTextColor">@color/onPrimary</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+        <item name="colorAccent">@color/onPrimary</item>
+        <item name="colorPrimary">@color/onPrimary</item>
+        <item name="colorSecondary">@color/onPrimary</item>
+        <item name="colorOnSurface">@color/onPrimary</item>
+    </style>
+
+    <style name="CustomInputField">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/onPrimary</item>
+        <item name="android:maxLines">1</item>
+    </style>
+    
+    <style name="CustomPwdInputLayout" parent="CustomInputLayout">
+        <item name="endIconMode">password_toggle</item>
+        <item name="android:hint">Password</item>
+        <item name="startIconDrawable">@drawable/ic_lock_24</item>
+        <item name="endIconTint">@color/primaryVariant</item>
+    </style>
+
+    <style name="CustomLoginInputLayout" parent="CustomInputLayout">
+        <item name="android:hint">Login</item>
+        <item name="startIconDrawable">@drawable/ic_key_24</item>
+    </style>
+
+    <style name="CustomUrlInputLayout" parent="CustomInputLayout">
+        <item name="android:hint">URL</item>
+        <item name="startIconDrawable">@drawable/ic_url_24</item>
+    </style>
+    
+    <style name="CustomSheetItem">
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">12dp</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+    <style name="CustomButton" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/onPrimary</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="colorPrimary">@color/onPrimary</item>
+        <item name="strokeColor">@color/onPrimary</item>
+    </style>
+
+    <style name="CustomPlusBt">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:src">@drawable/ic_arrow_up_24</item>
+        <item name="backgroundColor">@color/primaryVariant</item>
+        <item name="android:tint">@color/secondary</item>
+    </style>
+
+    <style name="CustomMinBt">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:src">@drawable/ic_arrow_down_24</item>
+        <item name="android:color">@color/primaryVariant</item>
+        <item name="android:tint">@color/secondary</item>
+    </style>
+
+    <style name="CustomBtBox">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">24dp</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
 </resources>
