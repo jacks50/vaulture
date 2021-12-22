@@ -14,9 +14,9 @@ import ch.jacks.vaulture.AbstractMainFragment
 import ch.jacks.vaulture.R
 import ch.jacks.vaulture.adapter.PasswordAdapter
 import ch.jacks.vaulture.app.VaultureApp
-import ch.jacks.vaulture.custom.PasswordGenerateDialog
 import ch.jacks.vaulture.db.dao.PasswordDao
 import ch.jacks.vaulture.db.entity.PasswordEntity
+import ch.jacks.vaulture.dialog.PasswordGenerateDialog
 import ch.jacks.vaulture.menu.MainMenuSheet
 import ch.jacks.vaulture.menu.PasswordMenuSheet
 import ch.jacks.vaulture.util.MyTextUtil
@@ -64,6 +64,7 @@ class PasswordListFragment : AbstractMainFragment() {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
             actionView = searchView
         }
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false

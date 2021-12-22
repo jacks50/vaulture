@@ -7,78 +7,50 @@
 
     <TextView
         android:id="@+id/tvAppName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        android:textSize="48dp"
-        app:layout_constraintBottom_toTopOf="@id/loginLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        style="@style/MainLogoStyle"
+        app:layout_constraintBottom_toTopOf="@id/loginLayout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginLayout"
+        style="@style/CustomLoginInputLayout"
+        app:layout_constraintBottom_toTopOf="@id/passwordLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginInput"
+            android:inputType="text"
+            style="@style/CustomInputField"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordLayout"
+        style="@style/CustomPwdInputLayout"
+        app:layout_constraintBottom_toTopOf="@id/cbRememberMe">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordInput"
+            android:inputType="textPassword"
+            style="@style/CustomInputField"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
         android:id="@+id/cbRememberMe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remember me"
-        app:layout_constraintBottom_toTopOf="@id/loginLayout"
+        android:textColor="@color/onPrimary"
+        android:buttonTint="@color/onPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/loginLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="Username"
-        app:layout_constraintBottom_toTopOf="@id/passwordLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/loginInput"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="text"
-            android:maxLines="1" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="Password"
-        app:layout_constraintBottom_toTopOf="@id/btLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordInput"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textPassword" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btLogin"/>
 
     <Button
         android:id="@+id/btLogin"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        style="@style/CustomButton"
         android:text="Login"
-        app:icon="@drawable/ic_lock_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/newAccountText"
@@ -88,9 +60,9 @@
         android:text="No account ? Create one here"
         android:textSize="12dp"
         android:textStyle="italic"
+        android:textColor="@color/onPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btLogin" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
