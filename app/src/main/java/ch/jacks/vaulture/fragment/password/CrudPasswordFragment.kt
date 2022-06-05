@@ -8,14 +8,17 @@ import ch.jacks.vaulture.R
 import ch.jacks.vaulture.db.dao.PasswordDao
 import ch.jacks.vaulture.db.entity.PasswordEntity
 import ch.jacks.vaulture.dialog.PasswordGenerateDialog
+import ch.jacks.vaulture.util.SessionUtil
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.crud_password_fragment.*
 
-class EditPasswordFragment : Fragment() {
+class CrudPasswordFragment : Fragment() {
     private lateinit var rootView: View
+    private var selectedPwdId: Long = -1
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         setHasOptionsMenu(true)
@@ -30,13 +33,30 @@ class EditPasswordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         rootView = view
 
-        var pwd: PasswordEntity? = PasswordDao.getPassword(arguments?.get("pwd_id") as Long)
+        arguments?.let {
+            selectedPwdId = it.get("pwd_id") as Long
 
-        if (pwd != null) {
-            pwdNameInput.setText(pwd.passwordName)
-            pwdUrlInput.setText(pwd.passwordURL)
-            pwdUsernameInput.setText(pwd.passwordUsername)
-            pwdPwdInput.setText(pwd.passwordValue)
+            val pwd: PasswordEntity? = PasswordDao.getPassword(selectedPwdId)
+
+            if (pwd != null) {
+                pwdNameInput.setText(pwd.passwordName)
+                pwdUrlInput.setText(pwd.passwordURL)
+                pwdUsernameInput.setText(pwd.passwordUsername)
+                pwdPwdInput.setText(pwd.passwordValue)
+            }
+        }
+
+        fabAdd.setOnClickListener {
+            if (selectedPwdId != -1L)
+                editPassword()
+            else
+                savePassword()
+
+            findNavController().popBackStack()
+        }
+
+        fabCancel.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
@@ -46,7 +66,10 @@ class EditPasswordFragment : Fragment() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.savePwd -> {
-                savePassword()
+                if (selectedPwdId != -1L)
+                    editPassword()
+                else
+                    savePassword()
                 findNavController().popBackStack()
                 true
             }
@@ -62,13 +85,27 @@ class EditPasswordFragment : Fragment() {
     }
 
     private fun savePassword() {
-        PasswordDao.editPassword(
-                pwdNameInput.text.toString(),
-                pwdUsernameInput.text.toString(),
-                pwdUrlInput.text.toString(),
-                pwdPwdInput.text.toString(),
-                arguments?.get("pwd_id") as Long
+        PasswordDao.createPassword(
+            pwdNameInput.text.toString(),
+            pwdUsernameInput.text.toString(),
+            pwdUrlInput.text.toString(),
+            pwdPwdInput.text.toString(),
+            SessionUtil.currentLoginId
         )
+
+        Snackbar.make(rootView, "Password saved successfully", Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun editPassword() {
+        PasswordDao.editPassword(
+            pwdNameInput.text.toString(),
+            pwdUsernameInput.text.toString(),
+            pwdUrlInput.text.toString(),
+            pwdPwdInput.text.toString(),
+            selectedPwdId
+        )
+
+        Snackbar.make(rootView, "Password edited successfully", Snackbar.LENGTH_SHORT).show()
     }
 
     companion object {

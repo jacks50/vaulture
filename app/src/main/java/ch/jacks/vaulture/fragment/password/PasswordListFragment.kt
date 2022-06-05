@@ -74,7 +74,6 @@ class PasswordListFragment : AbstractMainFragment() {
                 passwordListAdapter.filterDataSet(newText)
                 return true
             }
-
         })
     }
 
@@ -95,31 +94,34 @@ class PasswordListFragment : AbstractMainFragment() {
 
     private fun menuCallback(key: String) {
         when (key) {
-            // region Main  menu controls
+            // region Main menu controls
             MainMenuSheet.ADD_KEY -> {
-                findNavController().navigate(R.id.action_ListFragment_to_NewPasswordFragment)
+                findNavController().navigate(R.id.action_ListFragment_to_CrudPasswordFragment)
             }
             // endregion
 
             // region Password menu controls
             PasswordMenuSheet.EDIT_KEY -> {
                 val bundle = bundleOf(Pair("pwd_id", selectedPassword!!.passwordId))
-                findNavController().navigate(R.id.action_ListFragment_to_EditPasswordFragment, bundle)
+                findNavController().navigate(R.id.action_ListFragment_to_CrudPasswordFragment, bundle)
             }
+
             PasswordMenuSheet.COPY_USERNAME_KEY -> {
-                var clipboard: ClipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                var clipData: ClipData = ClipData.newPlainText("Username", selectedPassword!!.passwordUsername)
+                val clipboard: ClipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData: ClipData = ClipData.newPlainText("Username", selectedPassword!!.passwordUsername)
                 clipboard.setPrimaryClip(clipData)
                 Snackbar.make(rootView, "Username copied", Snackbar.LENGTH_SHORT).show()
             }
+
             PasswordMenuSheet.COPY_PWD_KEY -> {
-                var clipboard: ClipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                var clipData: ClipData = ClipData.newPlainText("Password", selectedPassword!!.passwordValue)
+                val clipboard: ClipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData: ClipData = ClipData.newPlainText("Password", selectedPassword!!.passwordValue)
                 clipboard.setPrimaryClip(clipData)
                 Snackbar.make(rootView, "Password copied", Snackbar.LENGTH_SHORT).show()
             }
+
             PasswordMenuSheet.SHOW_PWD_KEY -> {
-                var pwdValue: String = PasswordDao.getPassword(selectedPassword!!.passwordId)!!.passwordValue
+                val pwdValue: String = PasswordDao.getPassword(selectedPassword!!.passwordId)!!.passwordValue
                 MaterialAlertDialogBuilder(
                         requireActivity(),
                         R.style.MaterialAlertDialog__Center
@@ -128,6 +130,7 @@ class PasswordListFragment : AbstractMainFragment() {
                         .setPositiveButton("Close") { _, _ -> }
                         .show()
             }
+
             PasswordMenuSheet.DELETE_KEY -> {
                 MaterialAlertDialogBuilder(requireActivity())
                         .setMessage("Are you sure you want to delete this password ?")

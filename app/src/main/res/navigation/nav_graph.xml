@@ -48,16 +48,8 @@
         tools:layout="@layout/password_list_fragment">
 
         <action
-            android:id="@+id/action_ListFragment_to_NewPasswordFragment"
-            app:destination="@id/NewPasswordFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out" />
-
-        <action
-            android:id="@+id/action_ListFragment_to_EditPasswordFragment"
-            app:destination="@id/EditPasswordFragment"
+            android:id="@+id/action_ListFragment_to_CrudPasswordFragment"
+            app:destination="@id/CrudPasswordFragment"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
@@ -66,14 +58,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/NewPasswordFragment"
-        android:name="ch.jacks.vaulture.fragment.password.NewPasswordFragment"
+        android:id="@+id/CrudPasswordFragment"
+        android:name="ch.jacks.vaulture.fragment.password.CrudPasswordFragment"
         android:label="Add password"
-        tools:layout="@layout/new_password_fragment"/>
+        tools:layout="@layout/crud_password_fragment"/>
 
-    <fragment
-        android:id="@+id/EditPasswordFragment"
-        android:name="ch.jacks.vaulture.fragment.password.EditPasswordFragment"
-        android:label="Edit password"
-        tools:layout="@layout/new_password_fragment"/>
 </navigation>
