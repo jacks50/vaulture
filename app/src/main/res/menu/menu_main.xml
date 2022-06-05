@@ -23,21 +23,27 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/otherMenu"
+        android:id="@+id/exportPwdMenu"
         android:orderInCategory="200"
+        android:title="Export passwords"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/otherMenu"
+        android:orderInCategory="10000"
         android:title="Other"
         app:showAsAction="never">
 
         <menu>
             <item
                 android:id="@+id/settingsMenu"
-                android:orderInCategory="200"
+                android:orderInCategory="100"
                 android:title="Settings"
                 app:showAsAction="never" />
 
             <item
                 android:id="@+id/aboutMenu"
-                android:orderInCategory="300"
+                android:orderInCategory="200"
                 android:title="About"
                 app:showAsAction="never" />
         </menu>

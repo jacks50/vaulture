@@ -30,6 +30,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordInput"
             android:inputType="textPassword"
+            android:imeOptions="actionDone"
             style="@style/CustomInputField"/>
 
     </com.google.android.material.textfield.TextInputLayout>

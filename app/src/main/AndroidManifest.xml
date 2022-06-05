@@ -12,6 +12,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan"
             android:theme="@style/Theme.Vaulture.NoActionBar">
 
             <intent-filter>
