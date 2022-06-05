@@ -25,7 +25,7 @@
     <item
         android:id="@+id/exportPwdMenu"
         android:orderInCategory="200"
-        android:title="Import passwords"
+        android:title="Export passwords"
         app:showAsAction="never" />
 
     <item

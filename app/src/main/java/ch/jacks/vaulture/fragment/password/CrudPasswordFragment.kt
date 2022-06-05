@@ -8,6 +8,7 @@ import ch.jacks.vaulture.R
 import ch.jacks.vaulture.db.dao.PasswordDao
 import ch.jacks.vaulture.db.entity.PasswordEntity
 import ch.jacks.vaulture.dialog.PasswordGenerateDialog
+import ch.jacks.vaulture.util.MyTextUtil
 import ch.jacks.vaulture.util.SessionUtil
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.crud_password_fragment.*
@@ -33,6 +34,14 @@ class CrudPasswordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         rootView = view
 
+        MyTextUtil.setupFieldValidation(
+            mapOf(
+                pwdNameInput to pwdNameLayout,
+                pwdUsernameInput to pwdUsernameLayout,
+                pwdPwdInput to pwdPwdLayout
+            )
+        )
+
         arguments?.let {
             selectedPwdId = it.get("pwd_id") as Long
 
@@ -46,16 +55,18 @@ class CrudPasswordFragment : Fragment() {
             }
         }
 
-        fabAdd.setOnClickListener {
-            if (selectedPwdId != -1L)
-                editPassword()
-            else
-                savePassword()
+//        fabAdd.setOnClickListener {
+//            if (MyTextUtil.fieldsAreValid()) {
+//                if (selectedPwdId != -1L)
+//                    editPassword()
+//                else
+//                    savePassword()
+//
+//                findNavController().popBackStack()
+//            }
+//        }
 
-            findNavController().popBackStack()
-        }
-
-        fabCancel.setOnClickListener {
+        btCancel.setOnClickListener {
             findNavController().popBackStack()
         }
     }
@@ -66,11 +77,13 @@ class CrudPasswordFragment : Fragment() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.savePwd -> {
-                if (selectedPwdId != -1L)
-                    editPassword()
-                else
-                    savePassword()
-                findNavController().popBackStack()
+                if (MyTextUtil.fieldsAreValid()) {
+                    if (selectedPwdId != -1L)
+                        editPassword()
+                    else
+                        savePassword()
+                    findNavController().popBackStack()
+                }
                 true
             }
 
