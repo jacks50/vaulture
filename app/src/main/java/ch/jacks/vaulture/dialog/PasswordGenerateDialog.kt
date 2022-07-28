@@ -6,38 +6,41 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import ch.jacks.vaulture.R
-import ch.jacks.vaulture.util.MyTextUtil
+import ch.jacks.vaulture.util.MyTextUtil.colorize
 import ch.jacks.vaulture.util.PasswordGeneratorUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 
+// TODO : Correct generation of password (size related)
 class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
     // region Password size
-    private lateinit var ivPlusSize: ImageButton
+    private lateinit var ivPlusSize: Button
     private lateinit var tvPwdSize: TextView
-    private lateinit var ivMinusSize: ImageButton
+    private lateinit var ivMinusSize: Button
     private var sizeCounter = 12 // default value
     // endregion
 
     // region Password nb digits
-    private lateinit var ivPlusNbDigits: ImageButton
+    private lateinit var ivPlusNbDigits: Button
     private lateinit var tvPwdNbDigits: TextView
-    private lateinit var ivMinusNbDigits: ImageButton
+    private lateinit var ivMinusNbDigits: Button
     private var digitsCounter = 4 // default value
     // endregion
 
     // region Password nb special chars
-    private lateinit var ivPlusNbSpecial: ImageButton
+    private lateinit var ivPlusNbSpecial: Button
     private lateinit var tvPwdNbSpecial: TextView
-    private lateinit var ivMinusNbSpecial: ImageButton
+    private lateinit var ivMinusNbSpecial: Button
     private var specialCounter = 4 // default value
     // endregion
 
-    private lateinit var tvPwdGenerated: TextView
+    private lateinit var pwdGenerated: TextView
+    private lateinit var pwdGeneratedLayout: TextInputLayout
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         var customDialogView = requireActivity()
@@ -90,12 +93,12 @@ class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
         // endregion
 
         // region Password size UI elements management
-        tvPwdGenerated = customDialogView.findViewById(R.id.tvPwdGenerated)
+        pwdGenerated = customDialogView.findViewById(R.id.pwdGenerated)
+        pwdGeneratedLayout = customDialogView.findViewById(R.id.pwdGeneratedLayout)
 
-        tvPwdGenerated.text = MyTextUtil.colorizeText(
-            PasswordGeneratorUtil
-                .generateSecurePassword(sizeCounter, digitsCounter, specialCounter)
-        )
+        pwdGenerated.text = PasswordGeneratorUtil
+            .generateSecurePassword(sizeCounter, digitsCounter, specialCounter)
+        pwdGeneratedLayout.colorize()
         // endregion
 
         return MaterialAlertDialogBuilder(requireActivity())
@@ -104,7 +107,7 @@ class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
             .setPositiveButton("Copy") { _, _ ->
                 var clipboard: ClipboardManager =
                     requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                var clipData: ClipData = ClipData.newPlainText("Password", tvPwdGenerated.text)
+                var clipData: ClipData = ClipData.newPlainText("Password", pwdGenerated.text)
                 clipboard.setPrimaryClip(clipData)
                 Snackbar.make(rootView, "Generated password copied !", Snackbar.LENGTH_SHORT).show()
             }
@@ -112,8 +115,8 @@ class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
     }
 
     private fun setupListener(
-        ivPlus: ImageButton,
-        ivMinus: ImageButton,
+        ivPlus: Button,
+        ivMinus: Button,
         tvValue: TextView,
         counter: (Int) -> Int,
         counterMax: Int
@@ -135,9 +138,9 @@ class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
     }
 
     private fun generatePassword() {
-        tvPwdGenerated.text = MyTextUtil.colorizeText(
-            PasswordGeneratorUtil
-                .generateSecurePassword(sizeCounter, digitsCounter, specialCounter)
-        )
+        pwdGenerated.text = PasswordGeneratorUtil
+            .generateSecurePassword(sizeCounter, digitsCounter, specialCounter)
+
+        pwdGeneratedLayout.colorize()
     }
 }

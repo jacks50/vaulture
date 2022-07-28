@@ -32,7 +32,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newPasswordInput"
             android:inputType="textPassword"
-            style="@style/CustomInputField"/>
+            style="@style/CustomInputField" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,7 +45,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newPasswordConfirmInput"
             android:inputType="textPassword"
-            style="@style/CustomInputField"/>
+            style="@style/CustomInputField" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,7 +54,7 @@
         style="@style/CustomButton"
         android:text="Create account"
         android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

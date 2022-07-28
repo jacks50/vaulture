@@ -1,6 +1,6 @@
 package ch.jacks.vaulture.fragment.about
 
-import androidx.fragment.app.Fragment
+import ch.jacks.vaulture.abs.AbsMainFragment
 
-class AboutFragment : Fragment() {
+class AboutFragment : AbsMainFragment() {
 }
