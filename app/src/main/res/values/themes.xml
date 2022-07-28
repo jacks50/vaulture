@@ -133,27 +133,24 @@
     </style>
 
     <style name="CustomIconOnlyBt" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:insetLeft">0dp</item>
-        <item name="android:insetRight">0dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">36dp</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:minHeight">0dp</item>
-        <item name="iconPadding">0dp</item>
-        <item name="iconGravity">textStart</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="strokeColor">#0000</item>
     </style>
 
     <style name="CustomPlusBt" parent="CustomIconOnlyBt">
         <item name="android:layout_marginTop">12dp</item>
-        <item name="icon">@drawable/ic_arrow_up_24</item>
-        <item name="iconTint">@color/secondary</item>
-        <item name="strokeColor">@color/secondary</item>
+        <item name="android:drawableTop">@drawable/ic_add_24</item>
+        <item name="android:drawableTint">@color/secondary</item>
     </style>
 
-    <style name="CustomMinBt" parent="CustomPlusBt">
-        <item name="icon">@drawable/ic_arrow_down_24</item>
+    <style name="CustomMinBt" parent="CustomIconOnlyBt">
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:drawableTop">@drawable/ic_remove_24</item>
+        <item name="android:drawableTint">@color/secondary</item>
     </style>
 
     <style name="CustomBtBox">
@@ -163,7 +160,6 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_margin">24dp</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
-        <item name="layout_constraintBottom_toBottomOf">parent</item>
     </style>
 
     <!--style name="VaultureAlertDialogStyle" parent="Theme.MaterialComponents.Light.Dialog.Alert">

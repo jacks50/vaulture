@@ -17,9 +17,9 @@ import ch.jacks.vaulture.app.VaultureApp
 import ch.jacks.vaulture.db.JsonDbHelper
 import ch.jacks.vaulture.db.entity.PasswordEntity
 import ch.jacks.vaulture.dialog.PasswordGenerateDialog
+import ch.jacks.vaulture.dialog.PasswordShowDialog
 import ch.jacks.vaulture.menu.MainMenuSheet
 import ch.jacks.vaulture.menu.PasswordMenuSheet
-import ch.jacks.vaulture.util.MyTextUtil
 import ch.jacks.vaulture.util.PasswordDbUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -139,13 +139,8 @@ class PasswordListFragment : AbsMainFragment() {
             PasswordMenuSheet.SHOW_PWD_KEY -> {
                 val pwdValue: String = selectedPassword!!.passwordValue
 
-                MaterialAlertDialogBuilder(
-                    requireActivity(),
-                    R.style.MaterialAlertDialog__Center
-                )
-                    .setMessage(MyTextUtil.colorizeText(pwdValue))
-                    .setPositiveButton("Close") { _, _ -> }
-                    .show()
+                PasswordShowDialog(rootView, pwdValue)
+                    .show(requireActivity().supportFragmentManager, "PWD_SHOW_DIALOG")
             }
 
             PasswordMenuSheet.DELETE_KEY -> {
