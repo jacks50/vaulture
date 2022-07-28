@@ -11,7 +11,6 @@ object PasswordGeneratorUtil {
     private var random = SecureRandom()
 
     fun generateSecurePassword(size: Int, nbDigits: Int, nbSpecialChar: Int): String {
-        println("Size ${size}, Digits ${nbDigits}, Special ${nbSpecialChar}")
         var sb = StringBuilder()
 
         var nbLowercaseChars = (size - nbDigits - nbSpecialChar) / 2

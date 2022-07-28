@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import ch.jacks.vaulture.R
@@ -16,7 +17,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 
-// TODO : Correct generation of password (size related)
+// ----------------- TODO : WHOLE REFACTORING REQUIRED HERE !! -------------------------
+// ----------------- TODO : WHOLE REFACTORING REQUIRED HERE !! -------------------------
+// ----------------- TODO : WHOLE REFACTORING REQUIRED HERE !! -------------------------
 class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
     // region Password size
     private lateinit var ivPlusSize: Button
@@ -39,11 +42,18 @@ class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
     private var specialCounter = 4 // default value
     // endregion
 
+    private lateinit var ivReload: ImageView
+
+    private lateinit var btCopy: Button
+    private lateinit var btClose: Button
+
+    private var MAX_LENGTH = 24
+
     private lateinit var pwdGenerated: TextView
     private lateinit var pwdGeneratedLayout: TextInputLayout
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        var customDialogView = requireActivity()
+        val customDialogView = requireActivity()
             .layoutInflater
             .inflate(R.layout.password_generation_layout, null)
 
@@ -53,13 +63,19 @@ class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
         ivMinusSize = customDialogView.findViewById(R.id.ivMinusSize)
         tvPwdSize.text = sizeCounter.toString()
 
-        setupListener(
+        setupButtonListener(
             ivPlusSize,
             ivMinusSize,
             tvPwdSize,
-            { x -> sizeCounter += x; sizeCounter },
-            0
-        )
+        ) {
+            if ((it > 0 && sizeCounter < MAX_LENGTH) || (it < 0 && sizeCounter > (digitsCounter + specialCounter))) {
+                sizeCounter += it
+                tvPwdSize.text = sizeCounter.toString()
+                generatePassword()
+            }
+
+            sizeCounter
+        }
         // endregion
 
         // region Password digits UI elements management
@@ -68,13 +84,19 @@ class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
         ivMinusNbDigits = customDialogView.findViewById(R.id.ivMinusNbDigits)
         tvPwdNbDigits.text = digitsCounter.toString()
 
-        setupListener(
+        setupButtonListener(
             ivPlusNbDigits,
             ivMinusNbDigits,
             tvPwdNbDigits,
-            { x -> digitsCounter += x; digitsCounter },
-            0
-        )
+        ) {
+            if ((it > 0 && digitsCounter < (sizeCounter - specialCounter)) || (it < 0 && digitsCounter > 0)) {
+                digitsCounter += it
+                tvPwdNbDigits.text = digitsCounter.toString()
+                generatePassword()
+            }
+
+            digitsCounter
+        }
         // endregion
 
         // region Password special chars UI elements management
@@ -83,14 +105,25 @@ class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
         ivMinusNbSpecial = customDialogView.findViewById(R.id.ivMinusNbSpecial)
         tvPwdNbSpecial.text = specialCounter.toString()
 
-        setupListener(
+        setupButtonListener(
             ivPlusNbSpecial,
             ivMinusNbSpecial,
             tvPwdNbSpecial,
-            { x -> specialCounter += x; specialCounter },
-            0
-        )
+        ) {
+            if ((it > 0 && specialCounter < (sizeCounter - digitsCounter)) || (it < 0 && specialCounter > 0)) {
+                specialCounter += it
+                tvPwdNbSpecial.text = specialCounter.toString()
+                generatePassword()
+            }
+
+            specialCounter
+        }
         // endregion
+
+        ivReload = customDialogView.findViewById(R.id.ivReload)
+        ivReload.setOnClickListener {
+            generatePassword()
+        }
 
         // region Password size UI elements management
         pwdGenerated = customDialogView.findViewById(R.id.pwdGenerated)
@@ -101,39 +134,38 @@ class PasswordGenerateDialog(private var rootView: View) : DialogFragment() {
         pwdGeneratedLayout.colorize()
         // endregion
 
+        btCopy = customDialogView.findViewById(R.id.btCopy)
+        btClose = customDialogView.findViewById(R.id.btClose)
+
+        btCopy.setOnClickListener {
+            val clipboard: ClipboardManager =
+                requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData: ClipData = ClipData.newPlainText("Password", pwdGenerated.text)
+            clipboard.setPrimaryClip(clipData)
+            Snackbar.make(rootView, "Generated password copied !", Snackbar.LENGTH_SHORT).show()
+        }
+
+        btClose.setOnClickListener {
+            dismiss()
+        }
+
         return MaterialAlertDialogBuilder(requireActivity())
             .setView(customDialogView)
-            .setNegativeButton("Close") { _, _ -> }
-            .setPositiveButton("Copy") { _, _ ->
-                var clipboard: ClipboardManager =
-                    requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                var clipData: ClipData = ClipData.newPlainText("Password", pwdGenerated.text)
-                clipboard.setPrimaryClip(clipData)
-                Snackbar.make(rootView, "Generated password copied !", Snackbar.LENGTH_SHORT).show()
-            }
             .create()
     }
 
-    private fun setupListener(
+    private fun setupButtonListener(
         ivPlus: Button,
         ivMinus: Button,
         tvValue: TextView,
         counter: (Int) -> Int,
-        counterMax: Int
     ) {
         ivPlus.setOnClickListener {
-            tvValue.text = counter(+1).toString()
-
-            // TODO : Manage max of the counter to avoid having too long passwords following case
-            generatePassword()
+            counter(+1)
         }
 
         ivMinus.setOnClickListener {
-            if (counter(0) > 0) {
-                tvValue.text = counter(-1).toString()
-
-                generatePassword()
-            }
+            counter(-1)
         }
     }
 
