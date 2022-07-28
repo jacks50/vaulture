@@ -4,29 +4,29 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ch.jacks.vaulture.R
-import ch.jacks.vaulture.db.dao.PasswordDao
+import ch.jacks.vaulture.db.JsonDbHelper
 import ch.jacks.vaulture.db.entity.PasswordEntity
-import ch.jacks.vaulture.util.SessionUtil
+import java.net.URI
 
 class PasswordAdapter(
-        private var dataSet: ArrayList<PasswordEntity>,
-        private var listener: (PasswordEntity) -> Unit
+    private var dataSet: MutableMap<String, PasswordEntity>,
+    private var listener: (PasswordEntity) -> Unit
 ) : RecyclerView.Adapter<PasswordViewHolder>() {
-    private var dataSetCopy = ArrayList<PasswordEntity>(dataSet)
+    private var dataSetCopy: ArrayList<PasswordEntity> = ArrayList(dataSet.values)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PasswordViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.password_entity_layout, parent, false)
+            .inflate(R.layout.password_entity_layout, parent, false)
 
         return PasswordViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: PasswordViewHolder, position: Int) {
-        val password: PasswordEntity = dataSetCopy[position]
+        val password = dataSetCopy[position]
 
         //holder.passwordCardImage = password.passwordIcon
         holder.passwordCardName.text = password.passwordName
-        holder.passwordCardUrl.text = password.passwordURL
+        holder.passwordCardUrl.text = URI(password.passwordURL).host
 
         holder.itemView.setOnClickListener { listener(password) }
     }
@@ -40,18 +40,23 @@ class PasswordAdapter(
 
         if (!filter.isNullOrEmpty())
             dataSet.forEach {
-                if (it.passwordName.contains(filter, true) or it.passwordURL.contains(filter, true))
-                    dataSetCopy.add(it)
+                if (it.value.passwordName.contains(filter, true) or it.value.passwordURL.contains(
+                        filter,
+                        true
+                    )
+                )
+                    dataSetCopy.add(it.value)
             }
         else
-            dataSetCopy = ArrayList(dataSet)
+            dataSetCopy = ArrayList(dataSet.values)
 
         notifyDataSetChanged()
     }
 
     fun updateDataSet() {
-        dataSet = PasswordDao.getPasswords(SessionUtil.currentLoginId)
-        dataSetCopy = ArrayList(dataSet)
+        dataSet = JsonDbHelper.getPasswords()
+        dataSetCopy = ArrayList(dataSet.values)
+
         notifyDataSetChanged()
     }
 }

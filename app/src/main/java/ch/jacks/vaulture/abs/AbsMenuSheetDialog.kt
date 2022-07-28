@@ -1,4 +1,4 @@
-package ch.jacks.vaulture.abstract
+package ch.jacks.vaulture.abs
 
 import android.app.Dialog
 import android.os.Bundle

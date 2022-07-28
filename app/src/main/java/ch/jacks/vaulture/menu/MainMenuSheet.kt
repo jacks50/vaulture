@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ch.jacks.vaulture.R
-import ch.jacks.vaulture.abstract.AbsMenuSheetDialog
+import ch.jacks.vaulture.abs.AbsMenuSheetDialog
 import kotlinx.android.synthetic.main.menu_sheet_dialog.*
 
 class MainMenuSheet(
-        private var callback: (String) -> Unit
+    private var callback: (String) -> Unit
 ) : AbsMenuSheetDialog() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.menu_sheet_dialog, container, false)
     }

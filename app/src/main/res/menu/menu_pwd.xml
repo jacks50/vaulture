@@ -4,17 +4,9 @@
     tools:context="ch.jacks.vaulture.MainActivity">
 
     <item
-        android:id="@+id/savePwd"
-        android:icon="@drawable/ic_validate_24"
-        android:title="Save"
-        app:showAsAction="always">
-    </item>
-
-    <item
         android:id="@+id/genPwd"
         android:icon="@drawable/ic_key_24"
         android:title="Generate"
-        app:showAsAction="always">
-    </item>
+        app:showAsAction="always"></item>
 
 </menu>

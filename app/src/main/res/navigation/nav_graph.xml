@@ -8,7 +8,7 @@
     <action
         android:id="@+id/RestartToLogin"
         app:destination="@id/LoginFragment"
-        app:popUpTo="@id/nav_graph"/>
+        app:popUpTo="@id/nav_graph" />
 
     <fragment
         android:id="@+id/LoginFragment"
@@ -24,7 +24,7 @@
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/slide_out"
             app:popUpTo="@id/LoginFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_LoginFragment_to_NewLoginFragment"
@@ -61,6 +61,6 @@
         android:id="@+id/CrudPasswordFragment"
         android:name="ch.jacks.vaulture.fragment.password.CrudPasswordFragment"
         android:label="Add password"
-        tools:layout="@layout/crud_password_fragment"/>
+        tools:layout="@layout/crud_password_fragment" />
 
 </navigation>

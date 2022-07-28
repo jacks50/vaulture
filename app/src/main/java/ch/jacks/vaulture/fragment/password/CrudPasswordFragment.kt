@@ -2,20 +2,20 @@ package ch.jacks.vaulture.fragment.password
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ch.jacks.vaulture.R
-import ch.jacks.vaulture.db.dao.PasswordDao
+import ch.jacks.vaulture.abs.AbsMainFragment
+import ch.jacks.vaulture.db.JsonDbHelper
 import ch.jacks.vaulture.db.entity.PasswordEntity
 import ch.jacks.vaulture.dialog.PasswordGenerateDialog
-import ch.jacks.vaulture.util.MyTextUtil
+import ch.jacks.vaulture.util.MyTextUtil.setCustomFocusChangeListener
 import ch.jacks.vaulture.util.SessionUtil
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.crud_password_fragment.*
+import kotlinx.coroutines.CoroutineExceptionHandler
 
-class CrudPasswordFragment : Fragment() {
-    private lateinit var rootView: View
-    private var selectedPwdId: Long = -1
+class CrudPasswordFragment : AbsMainFragment() {
+    private var selectedPwdId: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,26 +26,13 @@ class CrudPasswordFragment : Fragment() {
         return inflater.inflate(R.layout.crud_password_fragment, container, false)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_pwd, menu)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rootView = view
-
-        MyTextUtil.setupFieldValidation(
-            mapOf(
-                pwdNameInput to pwdNameLayout,
-                pwdUsernameInput to pwdUsernameLayout,
-                pwdPwdInput to pwdPwdLayout
-            )
-        )
 
         arguments?.let {
-            selectedPwdId = it.get("pwd_id") as Long
+            selectedPwdId = it.get("pwd_id") as String
 
-            val pwd: PasswordEntity? = PasswordDao.getPassword(selectedPwdId)
+            val pwd: PasswordEntity? = JsonDbHelper.getPassword(selectedPwdId)
 
             if (pwd != null) {
                 pwdNameInput.setText(pwd.passwordName)
@@ -54,17 +41,51 @@ class CrudPasswordFragment : Fragment() {
                 pwdPwdInput.setText(pwd.passwordValue)
             }
         }
+    }
 
-//        fabAdd.setOnClickListener {
-//            if (MyTextUtil.fieldsAreValid()) {
-//                if (selectedPwdId != -1L)
-//                    editPassword()
-//                else
-//                    savePassword()
-//
-//                findNavController().popBackStack()
-//            }
-//        }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_pwd, menu)
+    }
+
+    override fun setupUIComponents() {
+        addToValidation(
+            pwdNameLayout,
+            pwdUsernameLayout,
+            pwdPwdLayout
+        )
+    }
+
+    override fun setupListeners(view: View) {
+        pwdNameLayout.setCustomFocusChangeListener()
+        pwdUrlLayout.setCustomFocusChangeListener()
+        pwdUsernameLayout.setCustomFocusChangeListener()
+        pwdPwdLayout.setCustomFocusChangeListener()
+
+        btConfirm.setOnClickListener {
+            if (fieldsAreValid()) {
+                showProgressBar(crudPasswordLayout, true)
+
+                startBackgroundTask({
+                    if (selectedPwdId.isNotEmpty())
+                        editPassword()
+                    else
+                        savePassword()
+
+                    showProgressBar(crudPasswordLayout, false)
+
+                    findNavController().popBackStack()
+                }, CoroutineExceptionHandler { _, _ ->
+                    showProgressBar(crudPasswordLayout, false)
+                    Snackbar
+                        .make(
+                            rootView,
+                            "Something went wrong when saving password",
+                            Snackbar.LENGTH_SHORT
+                        )
+                        .show()
+                })
+            }
+        }
 
         btCancel.setOnClickListener {
             findNavController().popBackStack()
@@ -76,17 +97,6 @@ class CrudPasswordFragment : Fragment() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.savePwd -> {
-                if (MyTextUtil.fieldsAreValid()) {
-                    if (selectedPwdId != -1L)
-                        editPassword()
-                    else
-                        savePassword()
-                    findNavController().popBackStack()
-                }
-                true
-            }
-
             R.id.genPwd -> {
                 PasswordGenerateDialog(rootView)
                     .show(requireActivity().supportFragmentManager, "PWD_GEN_DIALOG")
@@ -98,24 +108,31 @@ class CrudPasswordFragment : Fragment() {
     }
 
     private fun savePassword() {
-        PasswordDao.createPassword(
-            pwdNameInput.text.toString(),
-            pwdUsernameInput.text.toString(),
-            pwdUrlInput.text.toString(),
-            pwdPwdInput.text.toString(),
-            SessionUtil.currentLoginId
+        JsonDbHelper.createPassword(
+            PasswordEntity(
+                -1L,
+                pwdNameInput.text.toString(),
+                pwdUsernameInput.text.toString(),
+                pwdUrlInput.text.toString(),
+                pwdPwdInput.text.toString(),
+                SessionUtil.currentLoginId
+            )
         )
 
         Snackbar.make(rootView, "Password saved successfully", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun editPassword() {
-        PasswordDao.editPassword(
-            pwdNameInput.text.toString(),
-            pwdUsernameInput.text.toString(),
-            pwdUrlInput.text.toString(),
-            pwdPwdInput.text.toString(),
-            selectedPwdId
+        JsonDbHelper.editPassword(
+            PasswordEntity(
+                -1L,
+                pwdNameInput.text.toString(),
+                pwdUsernameInput.text.toString(),
+                pwdUrlInput.text.toString(),
+                pwdPwdInput.text.toString(),
+                SessionUtil.currentLoginId,
+                selectedPwdId
+            )
         )
 
         Snackbar.make(rootView, "Password edited successfully", Snackbar.LENGTH_SHORT).show()
