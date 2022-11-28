@@ -67,8 +67,10 @@ object JsonDbHelper {
         return true
     }
 
-    fun deletePassword(passwordId: String): Boolean {
-        return false
+    fun deletePassword(passwordUID: String): Boolean {
+        passwordMap.remove(passwordUID)
+        reloadPasswords()
+        return true
     }
 
     fun getPassword(id: String): PasswordEntity? {

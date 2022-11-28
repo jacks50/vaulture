@@ -1,14 +1,11 @@
 package ch.jacks.vaulture.util
 
-import android.text.TextUtils
 import ch.jacks.vaulture.app.VaultureApp
 import ch.jacks.vaulture.db.JsonDbHelper
-import ch.jacks.vaulture.db.entity.PasswordEntity
 import ch.jacks.vaulture.util.CryptUtil.charPool
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
-import java.io.FileOutputStream
 import java.io.InputStream
 
 // TODO : Refactor this whole class and unify with import
@@ -56,35 +53,35 @@ object PasswordDbUtil {
     }
 
     fun readPasswordFile(cacheDir: File, csvInputStream: InputStream) {
-        var csvFile = File(cacheDir, "csvpwd.tmp")
-
-        csvInputStream.use { input ->
-            val outputStream = FileOutputStream(csvFile)
-            outputStream.use { output ->
-                val buffer = ByteArray(4 * 1024) // buffer size
-                while (true) {
-                    val byteCount = input.read(buffer)
-                    if (byteCount < 0) break
-                    output.write(buffer, 0, byteCount)
-                }
-                output.flush()
-            }
-        }
-
-        csvFile.forEachLine {
-            var csvData = TextUtils.split(it, ",")
-            JsonDbHelper.createPassword(
-                PasswordEntity(
-                    -1L,
-                    csvData[NAME_INDEX],
-                    csvData[USERNAME_INDEX],
-                    csvData[URL_INDEX],
-                    csvData[PASSWORD_INDEX],
-                    SessionUtil.currentLoginId
-                )
-            )
-        }
-
-        csvFile.delete()
+//        var csvFile = File(cacheDir, "csvpwd.tmp")
+//
+//        csvInputStream.use { input ->
+//            val outputStream = FileOutputStream(csvFile)
+//            outputStream.use { output ->
+//                val buffer = ByteArray(4 * 1024) // buffer size
+//                while (true) {
+//                    val byteCount = input.read(buffer)
+//                    if (byteCount < 0) break
+//                    output.write(buffer, 0, byteCount)
+//                }
+//                output.flush()
+//            }
+//        }
+//
+//        csvFile.forEachLine {
+//            var csvData = TextUtils.split(it, ",")
+//            JsonDbHelper.createPassword(
+//                PasswordEntity(
+//                    -1L,
+//                    csvData[NAME_INDEX],
+//                    csvData[USERNAME_INDEX],
+//                    csvData[URL_INDEX],
+//                    csvData[PASSWORD_INDEX],
+//                    SessionUtil.currentLoginId
+//                )
+//            )
+//        }
+//
+//        csvFile.delete()
     }
 }
