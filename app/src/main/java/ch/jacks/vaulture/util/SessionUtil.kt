@@ -16,6 +16,7 @@ object SessionUtil {
     private const val SP_LAST_LOGIN_KEY = "LAST_LOGIN"
     private const val SP_LOGIN_ID_KEY = "LOGIN_ID"
     private const val SP_LOGIN_KEY = "LOGIN"
+    private const val SP_LAST_LOGIN_DATETIME = "LAST_LOGIN_DATETIME"
 
     // endregion
     var rememberMe: Boolean
@@ -48,5 +49,21 @@ object SessionUtil {
         }
         set(value) {
             sp.edit().putString(SP_LOGIN_KEY, value).apply()
+        }
+
+    var lastLoginDate: String
+        get() {
+            return sp.getString(SP_LAST_LOGIN_DATETIME, "1990-01-01T00:00:00") ?: ""
+        }
+        set(value) {
+            sp.edit().putString(SP_LAST_LOGIN_DATETIME, value).apply()
+        }
+
+    var importing: Boolean
+        get() {
+            return sp.getBoolean("IMPORT", false)
+        }
+        set(value) {
+            sp.edit().putBoolean("IMPORT", value).apply()
         }
 }

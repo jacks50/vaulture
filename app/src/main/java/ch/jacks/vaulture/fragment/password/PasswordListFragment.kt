@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import ch.jacks.vaulture.R
@@ -21,6 +21,7 @@ import ch.jacks.vaulture.dialog.PasswordShowDialog
 import ch.jacks.vaulture.menu.MainMenuSheet
 import ch.jacks.vaulture.menu.PasswordMenuSheet
 import ch.jacks.vaulture.util.PasswordDbUtil
+import ch.jacks.vaulture.util.SessionUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.password_list_fragment.*
@@ -33,6 +34,7 @@ class PasswordListFragment : AbsMainFragment() {
         PasswordAdapter(JsonDbHelper.getPasswords()) { onPasswordSelected(it) }
     private var mmSheet: MainMenuSheet = MainMenuSheet(::mainMenuCallback)
     private var pmSheet: PasswordMenuSheet = PasswordMenuSheet(::passwordMenuCallback)
+    private var searchView: SearchView? = null
     // endregion
 
     // region Fragment lifecycle functions
@@ -56,20 +58,16 @@ class PasswordListFragment : AbsMainFragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_main, menu)
 
-        val searchView = SearchView(requireActivity())
-        menu.findItem(R.id.searchMenu).apply {
-            setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
-            actionView = searchView
-        }
+        searchView = menu.findItem(R.id.searchMenu).actionView as SearchView
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 passwordListAdapter.filterDataSet(newText)
-                return true
+                return false
             }
         })
     }
@@ -175,17 +173,24 @@ class PasswordListFragment : AbsMainFragment() {
                     .show(requireActivity().supportFragmentManager, "PWD_GEN_DIALOG")
             }
             R.id.importPwdMenu -> {
-//                val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-//                    addCategory(Intent.CATEGORY_OPENABLE)
-//                    type = "*/*"
-//                }
-//
-//                startActivityForResult(Intent.createChooser(intent, "Open CSV"), FILE_CHOOSER_REQ_CODE)
-//                PasswordExportUtil.importJson()
+                val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "*/*"
+                }
+
+                SessionUtil.importing = true
+
+                startActivityForResult(
+                    Intent.createChooser(intent, "Open CSV"),
+                    FILE_CHOOSER_REQ_CODE
+                )
+                // TODO : Add call to import
+
                 Snackbar.make(rootView, "Passwords imported !", Snackbar.LENGTH_SHORT).show()
             }
             R.id.exportPwdMenu -> {
-//                PasswordExportUtil.exportJson(requireContext())
+                // TODO : Add FileChooser to export passwords
+                //  add call to export
                 Snackbar.make(rootView, "Passwords exported !", Snackbar.LENGTH_SHORT).show()
             }
             R.id.settingsMenu -> {

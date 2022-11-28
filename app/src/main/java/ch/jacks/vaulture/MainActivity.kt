@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
+import ch.jacks.vaulture.util.SessionUtil
+import java.time.Duration
+import java.time.LocalDateTime
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,9 +23,27 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        navController.navigate(R.id.RestartToLogin)
+
+        SessionUtil.lastLoginDate = LocalDateTime.now().toString()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (SessionUtil.importing) {
+            SessionUtil.importing = false
+            return
+        }
+
+        if (abs(
+                Duration.between(
+                    LocalDateTime.now(),
+                    LocalDateTime.parse(SessionUtil.lastLoginDate)
+                ).seconds
+            ) > 5
+        )
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
+                .navController
+                .navigate(R.id.RestartToLogin)
     }
 }

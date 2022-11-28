@@ -22,19 +22,15 @@ object PasswordGeneratorUtil {
         sb.append(generateString(CHAR_UPPERCASE, nbUppercaseChars))
 
         // TODO : Optimise this, can't be better than creating variables that way ??
-        var result = CharArray(sb.length)
+        var password = ""
 
-        sb.toCharArray(result)
+        sb.toList()
+            .shuffled()
+            .forEach {
+                password += it
+            }
 
-        result.shuffle()
-
-        var shuffledResult = ""
-
-        result.forEach {
-            shuffledResult += it
-        }
-
-        return shuffledResult
+        return password
     }
 
     private fun generateString(charList: String, size: Int): String {
